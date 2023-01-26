@@ -3,11 +3,16 @@ from . import abc
 import json
 import os,sys
 from collections import OrderedDict
-from shoppingcart.exception import ShoppingCartException
+from shoppingcart.exception import ShoppingCartException,FileEmptyException,CartEmptyException
+from . import constant
 
-# loaded the product prices from json file
-product_prices_file = open('shoppingcart/data/product_prices.json')
-rate_conversions_file = open('shoppingcart/data/rate_conversions.json')
+
+# loaded the product prices from json file and created exception when file don't exist
+try:
+    product_prices_file = open(constant.product_prices_file_path)
+    rate_conversions_file = open(constant.rate_conversions_file_path)
+except Exception as e:
+    raise ShoppingCartException(e,sys)
 
 
 class ShoppingCart(abc.ShoppingCart):
@@ -16,7 +21,13 @@ class ShoppingCart(abc.ShoppingCart):
     product_prices = json.load(product_prices_file)
     rate_conversions = json.load(rate_conversions_file)
     
+    
     def __init__(self):
+
+        # Checking whether are Source files are empty or not
+        if ShoppingCart.isProductPriceFileEmpty() or ShoppingCart.isRateConversionFileEmpty():
+            raise FileEmptyException()
+
         self._items = OrderedDict()
 
         # Initialized total_price to show total amount charged for each Customer
@@ -34,12 +45,16 @@ class ShoppingCart(abc.ShoppingCart):
             raise ShoppingCartException(e,sys)
 
 
+    
 # Add a 'Total' line to the receipt. This should be the full price we should charge the customer
     def print_receipt(self) -> typing.List[str]:
 
         try:
             lines = []
 
+            if self.isCartEmpty():
+                raise CartEmptyException()
+            
             for item in self._items.items():
                 price = self._get_product_price(item[0]) * item[1]
 
@@ -66,12 +81,10 @@ class ShoppingCart(abc.ShoppingCart):
             lines.append("Total" + ' - ' + total_price_string+ 
             ' euros'+' ----- '+total_price_dollars_string+' dollars'+' ----- '+total_price_rupees_string+' rupees')
 
+            
             return lines
         except Exception as e:
             raise ShoppingCartException(e,sys)
-
-
-
     
 
 # Be able to fetch product prices from an external source (json file, database ...)
@@ -82,7 +95,22 @@ class ShoppingCart(abc.ShoppingCart):
         except Exception as e:
             raise ShoppingCartException(e,sys)
 
+    def isCartEmpty(self):
+            if len(self._items.keys())==0:
+                return True
+            return False
 
+    @classmethod
+    def isProductPriceFileEmpty(cls):
+        if len(cls.product_prices.keys())==0:
+            return True
+        return False
+
+    @classmethod
+    def isRateConversionFileEmpty(cls):
+        if len(cls.rate_conversions.keys())==0:
+            return True
+        return False
 
 
 '''

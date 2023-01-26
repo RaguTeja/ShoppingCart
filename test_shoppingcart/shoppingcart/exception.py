@@ -26,3 +26,14 @@ class ShoppingCartException(Exception):
 
     def __str__(self):
         return self.error_message
+
+class CartEmptyException(Exception):
+ 
+  def __str__(self):
+    return "Your cart is Empty, Please fill the Cart"
+  
+class FileEmptyException(Exception):
+ 
+  def __str__(self):
+    return "One of Your Source files is Empty, Please check it once"
+  
