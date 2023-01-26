@@ -83,10 +83,18 @@ class ShoppingCart(abc.ShoppingCart):
                 
                 # adding price of each item
                 total_price += price
-                
-                price_string = "€%.2f" % price
+                price_string = "%.2f" % price
 
-                lines.append(item[0] + " - " + str(item[1]) + ' - ' + price_string)
+                price_in_dollars = price * ShoppingCart.rate_conversions['euro_to_dollar']
+                price_dollars_string = "%.2f" % price_in_dollars
+            
+                # Converting from euros to rupee
+                price_in_rupees = price * ShoppingCart.rate_conversions['euro_to_rupee']
+                price_rupees_string = "%.2f" % price_in_rupees
+                
+                lines.append(item[0] + ' - '  + str(item[1]) + ' - ' + price_string+ 
+            ' euros'+' ----- '+price_dollars_string+' dollars'+' ----- '+price_rupees_string+' rupees')
+
 
             # Rounding the total price 
             total_price_string = "%.2f" % total_price
