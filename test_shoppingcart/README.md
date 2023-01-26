@@ -1,10 +1,5 @@
 # Shopping cart
 
-It is a partial implementation of a shopping till system, which you might find at a supermarket.
-This implementation was done by a Junior developer, you as a Senior Software Engineer have been requested to refactor this project.
-You may make any technical decisions you would like, but must not change the given abstract class (abc.ShoppingCart) which is used by the shopping till hardware and cannot be easily updated.
-Please treat this code as an element of a larger production system. The code is being refactored to ensure reliability and testability.
-
 Tasks requested:
 - Make the receipt print items in the order that they were added
 - Add a 'Total' line to the receipt. This should be the full price we should charge the customer
@@ -19,7 +14,7 @@ Please budget 3 hours to complete, and your code should be production ready, cle
 - Provide a Github/GitLab/etc. link that we can view and clone your work; or
 - Use git-bundle (https://git-scm.com/docs/git-bundle) to create a bundle file and send this to us.
 
-
+==========================================================================================================
 
 ASSUMPTIONS :
 
@@ -37,3 +32,16 @@ Handled No Source files Exist exception.
 Handled Empty Cart Exception as there will be no need of calculation at that scenario.
 Handled Accessing Invalid Item.
 Implement delete operation.
+Ignore the Unwanted files.
+Handle the whole application in github by maintaining commit messages and version control.
+
+
+Execution:
+
+Test the application by executing main.py
+
+python main.py       --->  Starting point of the application
+
+You can test individual functions too  ---> I specified in comments.
+
+The whole code is handled by Exception Handling and logging for Monitoring.
