@@ -4,13 +4,13 @@ import json
 import os,sys
 from collections import OrderedDict
 from shoppingcart.exception import ShoppingCartException,FileEmptyException,CartEmptyException
-from . import constant
-
+from shoppingcart.constant import product_prices_file_path,rate_conversions_file_path
+from shoppingcart.logger import logging
 
 # loaded the product prices from json file and created exception when file don't exist
 try:
-    product_prices_file = open(constant.product_prices_file_path)
-    rate_conversions_file = open(constant.rate_conversions_file_path)
+    product_prices_file = open(product_prices_file_path)
+    rate_conversions_file = open(rate_conversions_file_path)
 except Exception as e:
     raise ShoppingCartException(e,sys)
 
@@ -20,7 +20,7 @@ class ShoppingCart(abc.ShoppingCart):
     # Convert JSON obj to Dictionary to access the data easily.
     product_prices = json.load(product_prices_file)
     rate_conversions = json.load(rate_conversions_file)
-    
+    logging.info("All the Source files are loaded successfully")
     
     def __init__(self):
 
@@ -28,6 +28,7 @@ class ShoppingCart(abc.ShoppingCart):
         if ShoppingCart.isProductPriceFileEmpty() or ShoppingCart.isRateConversionFileEmpty():
             raise FileEmptyException()
 
+        logging.info("All the Source files are Validated successfully")
         self._items = OrderedDict()
 
         # Initialized total_price to show total amount charged for each Customer
@@ -41,6 +42,8 @@ class ShoppingCart(abc.ShoppingCart):
             else:
                 q = self._items[product_code]
                 self._items[product_code] = q + quantity
+            logging.info("{0} with quantity of {1} has added successfully".format(product_code,quantity))
+            
         except Exception as e:
             raise ShoppingCartException(e,sys)
 
@@ -55,6 +58,7 @@ class ShoppingCart(abc.ShoppingCart):
             if self.isCartEmpty():
                 raise CartEmptyException()
             
+            logging.info("Confirmed that Cart is not Empty")
             for item in self._items.items():
                 price = self._get_product_price(item[0]) * item[1]
 
@@ -68,7 +72,8 @@ class ShoppingCart(abc.ShoppingCart):
 
             # Rounding the total price 
             total_price_string = "%.2f" % self.total_price
-
+            logging.info("Calculated Total Price of all the Items")
+            # Be able to display the product prices in different currencies (not only Euro).
             # Converting from euros to dollar
             total_price_in_dollars = self.total_price * ShoppingCart.rate_conversions['euro_to_dollar']
             total_price_dollars_string = "%.2f" % total_price_in_dollars
@@ -76,13 +81,14 @@ class ShoppingCart(abc.ShoppingCart):
             # Converting from euros to rupee
             total_price_in_rupees = self.total_price * ShoppingCart.rate_conversions['euro_to_rupee']
             total_price_rupees_string = "%.2f" % total_price_in_rupees
-
+            logging.info("Calculated the Total Price and Converted into different Currencies.")
             # At the end, Append the Total to the list of items.
             lines.append("Total" + ' - ' + total_price_string+ 
             ' euros'+' ----- '+total_price_dollars_string+' dollars'+' ----- '+total_price_rupees_string+' rupees')
 
-            
+            logging.info("Displayed the Receipt.")
             return lines
+
         except Exception as e:
             raise ShoppingCartException(e,sys)
     
@@ -93,6 +99,7 @@ class ShoppingCart(abc.ShoppingCart):
         try:
             return ShoppingCart.product_prices[product_code]
         except Exception as e:
+            logger.info("The Product code is Invalid")
             raise ShoppingCartException(e,sys)
 
     def isCartEmpty(self):
@@ -113,7 +120,7 @@ class ShoppingCart(abc.ShoppingCart):
         return False
 
 
-'''
+    '''
     
     def _get_product_price(self, product_code: str) -> float:
         price = 0.0

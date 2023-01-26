@@ -1,0 +1,9 @@
+[ 2023-01-26 03:50:18,751 ] 23 root - INFO - All the Source files are loaded successfully
+[ 2023-01-26 03:50:18,751 ] 31 root - INFO - All the Source files are Validated successfully
+[ 2023-01-26 03:50:18,751 ] 45 root - INFO - banana with quantity of 4 has added successfully
+[ 2023-01-26 03:50:18,751 ] 45 root - INFO - apple with quantity of 3 has added successfully
+[ 2023-01-26 03:50:18,751 ] 45 root - INFO - banana with quantity of 2 has added successfully
+[ 2023-01-26 03:50:18,751 ] 45 root - INFO - kiwi with quantity of 3 has added successfully
+[ 2023-01-26 03:50:18,751 ] 61 root - INFO - Confirmed that Cart is not Empty
+[ 2023-01-26 03:50:18,751 ] 75 root - INFO - Calculated Total Price of all the Items
+[ 2023-01-26 03:50:18,752 ] 89 root - INFO - Calculated the Total Price and Converted into different Currencies.
