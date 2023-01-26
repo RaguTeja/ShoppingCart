@@ -10,12 +10,14 @@ from shoppingcart.exception import (ShoppingCartException,
 from shoppingcart.constant import product_prices_file_path,rate_conversions_file_path
 from shoppingcart.logger import logging
 
-# loaded the product prices from json file and created exception when file don't exist
+
+# loaded the product prices from json file and created exception when souce file don't exist
 try:
     product_prices_file = open(product_prices_file_path)
     rate_conversions_file = open(rate_conversions_file_path)
 except Exception as e:
     raise ShoppingCartException(e,sys)
+
 
 
 class ShoppingCart(abc.ShoppingCart):
@@ -27,17 +29,28 @@ class ShoppingCart(abc.ShoppingCart):
     
     def __init__(self):
 
-        # Checking whether are Source files are empty or not
-        if ShoppingCart.isProductPriceFileEmpty() or ShoppingCart.isRateConversionFileEmpty():
-            raise FileEmptyException()
+        # Checking whether External Source files are empty or not
+        try:
+            if ShoppingCart.isProductPriceFileEmpty() or ShoppingCart.isRateConversionFileEmpty():
+                raise FileEmptyException()
 
-        logging.info("All the Source files are Validated successfully")
-        self._items = OrderedDict()     # From Python 3.7 there is no much difference b/w standard and ordered dict
-
+            logging.info("All the Source files are Validated successfully")
+            
+            self._items = OrderedDict()     # From Python 3.7 there is no much difference b/w standard and ordered dict
         
+        except Exception as e:
+            raise ShoppingCartException(e,sys)
+        
+
+
+# Adding the items to the cart withrepect to quantity
     def add_item(self, product_code: str, quantity: int):
 
         try:
+            if not isinstance(quantity, int):
+                logging.info("Please Check, whether the quantity of the product is Integer Type")
+                raise TypeError("Quantity must be integer type")
+
             if product_code not in self._items:
                 self._items[product_code] = quantity
             else:
@@ -50,6 +63,7 @@ class ShoppingCart(abc.ShoppingCart):
             raise ShoppingCartException(e,sys)
 
 
+# if suddenly want to delete the item added to the cart, we can utilize the below function.
     def delete_item(self,product_code: str):
         
         try:
@@ -73,6 +87,7 @@ class ShoppingCart(abc.ShoppingCart):
         try:
             lines = []
 
+            # if cart is empty there is no need of calculating total price. It doesn't make any sense
             if self.isCartEmpty():
                 raise CartEmptyException()
             
@@ -81,14 +96,15 @@ class ShoppingCart(abc.ShoppingCart):
                 price = self._get_product_price(item[0]) * item[1]
 
                 
-                # adding price of each item
+                # adding total price of each item
                 total_price += price
                 price_string = "%.2f" % price
 
+                # Converting each product total price from euros to dollar
                 price_in_dollars = price * ShoppingCart.rate_conversions['euro_to_dollar']
                 price_dollars_string = "%.2f" % price_in_dollars
             
-                # Converting from euros to rupee
+                # Converting each product total price from euros to rupee
                 price_in_rupees = price * ShoppingCart.rate_conversions['euro_to_rupee']
                 price_rupees_string = "%.2f" % price_in_rupees
                 
@@ -96,10 +112,11 @@ class ShoppingCart(abc.ShoppingCart):
             ' euros'+' ----- '+price_dollars_string+' dollars'+' ----- '+price_rupees_string+' rupees')
 
 
-            # Rounding the total price 
+            # Rounding the total price of all items
             total_price_string = "%.2f" % total_price
             logging.info("Calculated Total Price of all the Items")
-            # Be able to display the product prices in different currencies (not only Euro).
+           
+            
             # Converting from euros to dollar
             total_price_in_dollars = total_price * ShoppingCart.rate_conversions['euro_to_dollar']
             total_price_dollars_string = "%.2f" % total_price_in_dollars
@@ -108,6 +125,7 @@ class ShoppingCart(abc.ShoppingCart):
             total_price_in_rupees = total_price * ShoppingCart.rate_conversions['euro_to_rupee']
             total_price_rupees_string = "%.2f" % total_price_in_rupees
             logging.info("Calculated the Total Price and Converted into different Currencies.")
+           
             # At the end, Append the Total to the list of items.
             lines.append("Total" + ' - ' + total_price_string+ 
             ' euros'+' ----- '+total_price_dollars_string+' dollars'+' ----- '+total_price_rupees_string+' rupees')
@@ -128,17 +146,23 @@ class ShoppingCart(abc.ShoppingCart):
             logging.info("The Product code is Invalid")
             raise ShoppingCartException(e,sys)
 
+
+# Checking whether the cart is empty or not.
     def isCartEmpty(self):
             if len(self._items.keys())==0:
                 return True
             return False
 
+
+# Checking whether the source file product price is empty or not.
     @classmethod
     def isProductPriceFileEmpty(cls):
         if len(cls.product_prices.keys())==0:
             return True
         return False
 
+
+# Checking whether the source file rate coversions is empty or not.
     @classmethod
     def isRateConversionFileEmpty(cls):
         if len(cls.rate_conversions.keys())==0:
@@ -146,8 +170,13 @@ class ShoppingCart(abc.ShoppingCart):
         return False
 
 
+
+
+
+
+
+
     '''
-    
     def _get_product_price(self, product_code: str) -> float:
         price = 0.0
 

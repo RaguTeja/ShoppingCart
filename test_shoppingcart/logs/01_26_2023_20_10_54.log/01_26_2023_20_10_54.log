@@ -1,0 +1,41 @@
+[ 2023-01-26 20:10:54,722 ] 28 root - INFO - All the Source files are loaded successfully
+[ 2023-01-26 20:10:54,723 ] 37 root - INFO - All the Source files are Validated successfully
+[ 2023-01-26 20:10:54,723 ] 37 root - INFO - All the Source files are Validated successfully
+[ 2023-01-26 20:10:54,723 ] 59 root - INFO - apple with quantity of 1 has added successfully
+[ 2023-01-26 20:10:54,724 ] 94 root - INFO - Confirmed that Cart is not Empty
+[ 2023-01-26 20:10:54,724 ] 117 root - INFO - Calculated Total Price of all the Items
+[ 2023-01-26 20:10:54,724 ] 127 root - INFO - Calculated the Total Price and Converted into different Currencies.
+[ 2023-01-26 20:10:54,724 ] 133 root - INFO - Displayed the Receipt.
+[ 2023-01-26 20:10:54,725 ] 37 root - INFO - All the Source files are Validated successfully
+[ 2023-01-26 20:10:54,725 ] 59 root - INFO - apple with quantity of 2 has added successfully
+[ 2023-01-26 20:10:54,726 ] 94 root - INFO - Confirmed that Cart is not Empty
+[ 2023-01-26 20:10:54,726 ] 117 root - INFO - Calculated Total Price of all the Items
+[ 2023-01-26 20:10:54,726 ] 127 root - INFO - Calculated the Total Price and Converted into different Currencies.
+[ 2023-01-26 20:10:54,726 ] 133 root - INFO - Displayed the Receipt.
+[ 2023-01-26 20:10:54,727 ] 37 root - INFO - All the Source files are Validated successfully
+[ 2023-01-26 20:10:54,727 ] 59 root - INFO - banana with quantity of 1 has added successfully
+[ 2023-01-26 20:10:54,727 ] 59 root - INFO - kiwi with quantity of 1 has added successfully
+[ 2023-01-26 20:10:54,729 ] 94 root - INFO - Confirmed that Cart is not Empty
+[ 2023-01-26 20:10:54,729 ] 117 root - INFO - Calculated Total Price of all the Items
+[ 2023-01-26 20:10:54,729 ] 127 root - INFO - Calculated the Total Price and Converted into different Currencies.
+[ 2023-01-26 20:10:54,729 ] 133 root - INFO - Displayed the Receipt.
+[ 2023-01-26 20:10:54,730 ] 37 root - INFO - All the Source files are Validated successfully
+[ 2023-01-26 20:10:54,731 ] 59 root - INFO - banana with quantity of 1 has added successfully
+[ 2023-01-26 20:10:54,731 ] 59 root - INFO - kiwi with quantity of 1 has added successfully
+[ 2023-01-26 20:10:54,732 ] 94 root - INFO - Confirmed that Cart is not Empty
+[ 2023-01-26 20:10:54,733 ] 117 root - INFO - Calculated Total Price of all the Items
+[ 2023-01-26 20:10:54,733 ] 127 root - INFO - Calculated the Total Price and Converted into different Currencies.
+[ 2023-01-26 20:10:54,733 ] 133 root - INFO - Displayed the Receipt.
+[ 2023-01-26 20:10:54,734 ] 37 root - INFO - All the Source files are Validated successfully
+[ 2023-01-26 20:10:54,734 ] 59 root - INFO - banana with quantity of 4 has added successfully
+[ 2023-01-26 20:10:54,734 ] 59 root - INFO - apple with quantity of 3 has added successfully
+[ 2023-01-26 20:10:54,735 ] 59 root - INFO - banana with quantity of 2 has added successfully
+[ 2023-01-26 20:10:54,735 ] 59 root - INFO - kiwi with quantity of 3 has added successfully
+[ 2023-01-26 20:10:54,736 ] 73 root - INFO - The banana is removed successfully
+[ 2023-01-26 20:10:54,737 ] 73 root - INFO - The kiwi is removed successfully
+[ 2023-01-26 20:10:54,737 ] 94 root - INFO - Confirmed that Cart is not Empty
+[ 2023-01-26 20:10:54,738 ] 117 root - INFO - Calculated Total Price of all the Items
+[ 2023-01-26 20:10:54,738 ] 127 root - INFO - Calculated the Total Price and Converted into different Currencies.
+[ 2023-01-26 20:10:54,738 ] 133 root - INFO - Displayed the Receipt.
+[ 2023-01-26 20:10:54,739 ] 37 root - INFO - All the Source files are Validated successfully
+[ 2023-01-26 20:10:54,740 ] 51 root - INFO - Please Check, whether the quantity of the product is Integer Type

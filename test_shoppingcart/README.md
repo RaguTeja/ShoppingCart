@@ -23,7 +23,17 @@ Please budget 3 hours to complete, and your code should be production ready, cle
 
 ASSUMPTIONS :
 
-External Source file - JSON format
-1 euro = 1.09 dollars
-1 euro = 88 rupees
+External Source files - JSON format.
+1 euro = 1.09 dollars.
+1 euro = 88 rupees.
+Every Product that we are adding, There must be corresponding price data in product_prices.json.
+The rate conversions are connected to real-time API to get updated rates for the currencies. 
+
+To Do:
+
+Handled Quantity as Non Integer Datatype.
+Handled Empty Source files exception.
+Handled No Source files Exist exception.
+Handled Empty Cart Exception as there will be no need of calculation at that scenario.
+Handled Accessing Invalid Item.
 
