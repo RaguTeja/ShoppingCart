@@ -1,2 +1,2 @@
-shoppingcart/__pycache__
-shoppingcart/*.ipynb
+__pycache__
+*.ipynb
