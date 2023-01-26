@@ -37,3 +37,7 @@ class FileEmptyException(Exception):
   def __str__(self):
     return "One of Your Source files is Empty, Please check it once"
   
+class ItemNotFound(Exception):
+ 
+  def __str__(self):
+    return "Item not found, Please check again"

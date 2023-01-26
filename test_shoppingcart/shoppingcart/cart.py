@@ -3,7 +3,10 @@ from . import abc
 import json
 import os,sys
 from collections import OrderedDict
-from shoppingcart.exception import ShoppingCartException,FileEmptyException,CartEmptyException
+from shoppingcart.exception import (ShoppingCartException,
+                                    FileEmptyException,
+                                    CartEmptyException,
+                                    ItemNotFound)
 from shoppingcart.constant import product_prices_file_path,rate_conversions_file_path
 from shoppingcart.logger import logging
 
@@ -29,11 +32,9 @@ class ShoppingCart(abc.ShoppingCart):
             raise FileEmptyException()
 
         logging.info("All the Source files are Validated successfully")
-        self._items = OrderedDict()
+        self._items = OrderedDict()     # From Python 3.7 there is no much difference b/w standard and ordered dict
 
-        # Initialized total_price to show total amount charged for each Customer
-        self.total_price = 0.0
-
+        
     def add_item(self, product_code: str, quantity: int):
 
         try:
@@ -43,14 +44,31 @@ class ShoppingCart(abc.ShoppingCart):
                 q = self._items[product_code]
                 self._items[product_code] = q + quantity
             logging.info("{0} with quantity of {1} has added successfully".format(product_code,quantity))
+            print("{0} with quantity of {1} has added successfully".format(product_code,quantity))
             
         except Exception as e:
             raise ShoppingCartException(e,sys)
 
 
+    def delete_item(self,product_code: str):
+        
+        try:
+            if product_code not in self._items.keys():
+                raise ItemNotFound()
+            removed_item=self._items.pop(product_code)
+            logging.info("The {} is removed successfully".format(product_code))
+            print("The {} is removed successfully".format(product_code))
+        except Exception as e:
+            logging.info("The Item you wanted to delete is not found")
+            raise ShoppingCartException(e,sys)
+            
+
     
 # Add a 'Total' line to the receipt. This should be the full price we should charge the customer
     def print_receipt(self) -> typing.List[str]:
+        
+        # Initialized total_price to show total amount charged for each Customer
+        total_price = 0.0
 
         try:
             lines = []
@@ -64,22 +82,22 @@ class ShoppingCart(abc.ShoppingCart):
 
                 
                 # adding price of each item
-                self.total_price += price
+                total_price += price
                 
                 price_string = "€%.2f" % price
 
                 lines.append(item[0] + " - " + str(item[1]) + ' - ' + price_string)
 
             # Rounding the total price 
-            total_price_string = "%.2f" % self.total_price
+            total_price_string = "%.2f" % total_price
             logging.info("Calculated Total Price of all the Items")
             # Be able to display the product prices in different currencies (not only Euro).
             # Converting from euros to dollar
-            total_price_in_dollars = self.total_price * ShoppingCart.rate_conversions['euro_to_dollar']
+            total_price_in_dollars = total_price * ShoppingCart.rate_conversions['euro_to_dollar']
             total_price_dollars_string = "%.2f" % total_price_in_dollars
             
             # Converting from euros to rupee
-            total_price_in_rupees = self.total_price * ShoppingCart.rate_conversions['euro_to_rupee']
+            total_price_in_rupees = total_price * ShoppingCart.rate_conversions['euro_to_rupee']
             total_price_rupees_string = "%.2f" % total_price_in_rupees
             logging.info("Calculated the Total Price and Converted into different Currencies.")
             # At the end, Append the Total to the list of items.
@@ -99,7 +117,7 @@ class ShoppingCart(abc.ShoppingCart):
         try:
             return ShoppingCart.product_prices[product_code]
         except Exception as e:
-            logger.info("The Product code is Invalid")
+            logging.info("The Product code is Invalid")
             raise ShoppingCartException(e,sys)
 
     def isCartEmpty(self):
