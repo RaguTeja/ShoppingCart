@@ -4,8 +4,8 @@ import json
 import os
 
 # loaded the product prices from json file
-product_prices_file = open('shoppingcart\data\product_prices.json')
-rate_conversions_file = open('shoppingcart\data\rate_conversions.json')
+product_prices_file = open('shoppingcart/data/product_prices.json')
+rate_conversions_file = open('shoppingcart/data/rate_conversions.json')
 
 
 class ShoppingCart(abc.ShoppingCart):
@@ -34,6 +34,7 @@ class ShoppingCart(abc.ShoppingCart):
 
         for item in self._items.items():
             price = self._get_product_price(item[0]) * item[1]
+
             
             # adding price of each item
             self.total_price += price
@@ -43,10 +44,18 @@ class ShoppingCart(abc.ShoppingCart):
             lines.append(item[0] + " - " + str(item[1]) + ' - ' + price_string)
 
         # Rounding the total price 
-        total_price_string = "€%.2f" % self.total_price
+        total_price_string = "%.2f" % self.total_price
+
+        total_price_in_dollars = self.total_price * ShoppingCart.rate_conversions['euro_to_dollar']
+        total_price_dollars_string = "%.2f" % total_price_in_dollars
+        
+        total_price_in_rupees = self.total_price * ShoppingCart.rate_conversions['euro_to_rupee']
+        total_price_rupees_string = "%.2f" % total_price_in_rupees
 
         # At the end, Append the Total to the list of items.
-        lines.append("Total" + ' - ' + total_price_string)
+        lines.append("Total" + ' - ' + total_price_string+ 
+        ' euros'+' ----- '+total_price_dollars_string+' dollars'+' ----- '+total_price_rupees_string+' rupees')
+
         return lines
 
 
